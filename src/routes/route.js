@@ -1,7 +1,7 @@
 const express = require('express');
 const abc = require('../introduction/intro')
 const router = express.Router();
-
+//---route is --/test-me---the path and rout hndlear is ---functionto res---()
 router.get('/test-me', function (req, res) {
     console.log('My batch is', abc.name)
     abc.printName()
@@ -32,6 +32,7 @@ router.get('/students/:studentName', function(req, res){
 })
 
 // Example 2 for path params
+
 router.get('/student-details/:name', function(req, res){
     let requestParams = req.params
     console.log("This is the request ", requestParams)
@@ -39,5 +40,66 @@ router.get('/student-details/:name', function(req, res){
     console.log('Name of the student is ', studentName)
     res.send('Dummy response')
 })
+//===Create an API for GET /movies that returns
+router.get('/student-details/:x',function(req,res){
+})
 
+//----assignment---====================
+const movieArr = ["Rang-de-basanti", 'The-shining', 'Lord-of-the-rings', 'Batman-begins']
+
+router.get('/movie',function(req,res){
+    res.send(movieArr[0])
+})
+
+//--path params--2nd router.get('/student-details/:x',function(req,res){
+router.get('/movie/:indexNumber',function(req,res){
+    const index= req.params.indexNumber
+    console.log(movieArr[index])
+    res.send(movieArr[index])
+})
+
+//----Handle a scenario in problem 2 ----
+router.get('/movies/:indexNumber',function(req,res){
+    const index= req.params.indexNumber
+    if(index>=0 && index < movieArr.length){
+    console.log(movieArr[index])
+    res.send(movieArr[index])
+}else {
+    res.send("invalid")
+}
+})
+//-----in obj form---
+const filmArr = [ {
+    "id": 1,
+    'name': 'The Shining'
+   }, {
+    'id': 2,
+    'name': 'Incendies'
+   }, {
+    'id': 3,
+    'name': 'Rang de Basanti'
+   }, {
+    'id': 4,
+    'name': 'Finding Nemo'
+   }]
+//--all films in object form
+   router.get('/allfilm',function(req,res){
+    //const id= req.params.idNumber
+   // const film= filmArr.find(film =>film.id==id)
+    console.log(filmArr)
+    res.send(filmArr)
+})
+
+   router.get('/film/:idNumber',function(req,res){
+    const id= req.params.idNumber
+    const film= filmArr.find(film =>film.id==id)
+
+    if(film){
+    console.log(film)
+    res.send(film)}
+    else {
+        res.send("no movie ")
+    }
+   })
 module.exports = router;
+
