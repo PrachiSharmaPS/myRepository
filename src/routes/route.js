@@ -39,5 +39,59 @@ router.get('/student-details/:name', function(req, res){
     console.log('Name of the student is ', studentName)
     res.send('Dummy response')
 })
+//----assignment---====================
+const movieArr = ["Rang-de-basanti", 'The-shining', 'Lord-of-the-rings', 'Batman-begins']
 
+router.get('/movie',function(req,res){
+    res.send(movieArr[0])
+})
+//--path params--2nd router.get('/student-details/:x',function(req,res){
+router.get('/movie/:indexNumber',function(req,res){
+    const index= req.params.indexNumber
+    console.log(movieArr[index])
+    res.send(movieArr[index])
+})
+//----Handle a scenario in problem 2 ----
+router.get('/movies/:indexNumber',function(req,res){
+    const index= req.params.indexNumber
+    if(index>=0 && index < movieArr.length){
+    console.log(movieArr[index])
+    res.send(movieArr[index])
+}else {
+    res.send("invalid")
+}
+})
+//-----in obj form---
+const filmArr = [ {
+    "id": 1,
+    'name': 'The Shining'
+   }, {
+    'id': 2,
+    'name': 'Incendies'
+   }, {
+    'id': 3,
+    'name': 'Rang de Basanti'
+   }, {
+    'id': 4,
+    'name': 'Finding Nemo'
+   }]
+//--all films in object form
+   router.get('/allfilm',function(req,res){
+    console.log(filmArr)
+    res.send(filmArr)
+})
+  router.get('/film/:idNumber',function(req,res){
+    const id= req.params.idNumber
+    const film= filmArr.find(film =>film.id==id)
+
+    if(film){
+    console.log(film)
+    res.send(film)}
+    else {
+        res.send("no movie ")
+    }
+   })
 module.exports = router;
+
+
+
