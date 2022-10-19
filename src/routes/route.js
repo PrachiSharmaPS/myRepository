@@ -91,6 +91,37 @@ const filmArr = [ {
         res.send("no movie ")
     }
    })
+
+   //=====Problem 1 =====
+   router.get("/sol1", function (req, res) {
+    
+  let arr= [1,2,3,5,6,7]
+    let sum = 0;
+    let n =arr.length+1;
+    let total=(n*(n+1))/2;
+
+     for(i = 0 ; i <arr.length; i++){
+     sum +=arr[i]; 
+ }
+    let missingNumber = total-sum;
+    res.send({object : missingNumber});
+})
+//-----solution --- 2 --------
+router.get("/sol2", function (req, res) {
+   
+  let array= [33, 34, 35, 37, 38]
+   let sum = 0;
+    let first= array[0];
+     let n =array.length+1;
+    let total= (n*(first + 38)/2);
+
+     for(i = 0 ; i <array.length; i++){
+     sum +=array[i]; 
+ }
+    let missingNumber = total-sum;
+    res.send({object : missingNumber});
+})
+
 module.exports = router;
 
 
