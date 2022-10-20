@@ -1,5 +1,5 @@
 const express = require('express');
-const router = express.Router();
+const router = express.Router();//---express is npm packge it has a function
 
 router.get('/students/:name', function(req, res) {
     let studentName = req.params.name
@@ -158,6 +158,46 @@ router.post( "/post-query-2", function (req, res){
     }
     res.send( {data: finalArr , status: true})
 })
+//------assignment ----array of object---
+let persons= [
+    {
+    name: "PK",
+    age: 10,
+    votingStatus: false
+ },
+ {
+    name: "SK",
+    age: 20,
+    votingStatus: false
+ },
+ {
+    name: "AA",
+    age: 70,
+    votingStatus: false
+ },
+ {
+    name: "SC",
+    age: 5,
+    votingStatus: false
+ },
+ {
+    name: "HO",
+    age: 40,
+    votingStatus: false
+ }
+ ]
+ router.post( "/post-1", function (req, res){
+    let votingAge= req.query.age
+    const voter=[];
+persons.forEach((persons)=>{
+    if (persons.age>=votingAge){
+        persons.votingStatus=true;
+        voter.push(persons)
+    }
+})
+    res.send( {data: voter, status: true})
+})
 
+ 
 
 module.exports = router;
