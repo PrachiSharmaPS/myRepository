@@ -1,23 +1,37 @@
 const jwt= require("jsonwebtoken");
+const userModel = require("../models/myModel");
 
-const authenticate = function(req, res, next) {
+
+const authenticate = async function(req, res, next) {
+  try { 
     let token = req.headers["x-auth-token"];
-    if(!token) {res.send({msg : "token is needed"})}
+    let userId = req.params.userId
+    if(!token& !userId) {res.status(400).send({msg : "bad request"})}
   
     let decodedToken = jwt.verify(token, "Niharika-sharma");
-    if (!decodedToken) return res.send({ status: false, msg: "token is invalid" });
+    let user=await userModel.findById(userId)
+    if (!decodedToken && !user) return res.send({ status: false, msg: "token is invalid" });
 
-     next() 
+     next() }
+     catch(err) {
+        console.log("this is error:",err.message)
+        res.status(500).send({error:err })
+    }
 }
 const authorise = function(req, res, next) {
+    try { 
    let token = req.headers["x-auth-token"]
        const validToken= jwt.verify(token,"Niharika-sharma")
         let userModified = req.params.userId
-        if (!userModified) return res.send({msg : "user id is missing"})
 
         let userLoggedIn = validToken.userId
-        if(userLoggedIn!=userModified) return res.send({msg:"not a valid user"})
+        if(userLoggedIn!=userModified) return res.status(401).send({msg:"not a valid user"})
     next()
+    }
+    catch(err) {
+        console.log("this is error:",err.message)
+        res.status(500).send({msg:err})
+    }
 }
 module.exports.authorise=authorise
 module.exports.authenticate=authenticate
