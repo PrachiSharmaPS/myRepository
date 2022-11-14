@@ -1,5 +1,24 @@
 let axios = require("axios")
-//------------------------weather-------------------------------
+
+let getAllMemes = async function (req, res) {
+
+    try {
+        let options = {
+            method: 'get',
+            url: 'https://api.imgflip.com/get_memes'
+        }
+        let result = await axios(options);
+        console.log(result)
+        let data = result.data
+        res.status(200).send({ msg: data, status: true })
+    }
+    catch (err) {
+        console.log(err)
+        res.status(500).send({ msg: err.message })
+    }
+}
+
+
 let postMeme = async function (req, res) {
     try {
         let template_id = req.query.template_id
@@ -8,8 +27,8 @@ let postMeme = async function (req, res) {
         let password=req.query.password  
        
         let options = {
-            method: "get",
-            url: `https://api.imgflip.com/caption_image?template_id=${template_id}&text0=${text0}&username=${username}&password=${password}}`
+            method: "post",
+            url: `https://api.imgflip.com/caption_image?template_id=${template_id}&text0=${text0}&username=${username}&password=${password}`
         }      
         let result = await axios(options);
         console.log(result)
@@ -23,3 +42,4 @@ let postMeme = async function (req, res) {
 }
 
 module.exports.postMeme = postMeme
+module.exports.getAllMemes=getAllMemes
